@@ -2,7 +2,15 @@
 
 # 
 
-# An AI-powered voice sales assistant that conducts interactive customer conversations, answers product questions, captures live transcripts, and generates sales summaries.
+# An AI-powered voice assistant for interactive sales conversations, customer discovery, and automated follow-ups.
+
+# 
+
+# \## Overview
+
+# 
+
+# AI Voice Sales Agent helps simulate a real sales conversation using speech recognition and generative AI. It captures the conversation, summarizes customer needs, and assigns a relevant sales status.
 
 # 
 
@@ -10,17 +18,17 @@
 
 # 
 
-# \- Interactive AI voice conversations
+# \- Interactive voice conversations
 
-# \- Multilingual speech input and spoken responses
+# \- Multilingual speech input and responses
 
 # \- Live conversation transcript
 
-# \- Call controls, duration, and status
+# \- Call controls and duration tracking
 
-# \- Consent-based audio recording and playback
+# \- Consent-based recording and playback
 
-# \- AI-generated conversation summaries
+# \- AI-generated summaries and next steps
 
 # \- Automatic sales status classification
 
@@ -28,7 +36,7 @@
 
 # 
 
-# \## Tech Stack
+# \## Technology
 
 # 
 
@@ -38,39 +46,43 @@
 
 # \- Google Gemini API
 
-# \- Browser speech recognition and speech synthesis
+# \- Browser speech recognition and synthesis
 
 # \- JSON-based local storage
 
 # 
 
-# \## Getting Started
+# \## Getting started
 
 # 
 
-# Install dependencies and configure the required environment variables before starting the frontend and backend.
+# Install dependencies in the project root and configure the required environment variables.
 
 # 
 
-# See the project configuration and source code for the available scripts and setup details.
+# Start the backend and frontend using the scripts defined in the project configuration. Refer to the respective package files for available commands.
 
 # 
 
-# \## Security
+# \## Configuration
 
 # 
 
-# \- Keep API keys in environment variables.
-
-# \- Do not commit `.env` files, recordings, or customer data.
-
-# \- Obtain consent before recording conversations.
+# Configure your Gemini API key in the server environment. Keep credentials in local environment files and never commit secrets to version control.
 
 # 
 
-# \## Status
+# \## Privacy
 
 # 
 
-# This project is under development. Production deployment, persistent hosting, and end-to-end voice recording behavior should be verified before production use.
+# Recording should only take place with appropriate consent. Avoid storing real customer data in public repositories.
+
+# 
+
+# \## Project status
+
+# 
+
+# The application is under development. Test voice behavior, recording playback, data persistence, and deployment before using it in production.
 
