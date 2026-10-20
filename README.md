@@ -1,88 +1,86 @@
-# \# AI Voice Sales Agent
+##### AI Voice Sales Agent
 
-# 
+##### ====================
 
-# An AI-powered voice assistant for interactive sales conversations, customer discovery, and automated follow-ups.
+##### 
 
-# 
+##### An AI-powered voice assistant for interactive sales conversations, customer discovery, and follow-ups.
 
-# \## Overview
+##### 
 
-# 
+##### \### Overview
 
-# AI Voice Sales Agent helps simulate a real sales conversation using speech recognition and generative AI. It captures the conversation, summarizes customer needs, and assigns a relevant sales status.
+##### 
 
-# 
+##### AI Voice Sales Agent simulates sales conversations using speech recognition and generative AI. It captures customer responses, summarizes requirements, and assigns a relevant sales status.
 
-# \## Features
+##### 
 
-# 
+##### \### Features
 
-# \- Interactive voice conversations
+##### 
 
-# \- Multilingual speech input and responses
+##### \- Interactive voice conversations
 
-# \- Live conversation transcript
+##### \- Multilingual speech input and responses
 
-# \- Call controls and duration tracking
+##### \- Live conversation transcript
 
-# \- Consent-based recording and playback
+##### \- Call controls and duration tracking
 
-# \- AI-generated summaries and next steps
+##### \- Consent-based recording and playback
 
-# \- Automatic sales status classification
+##### \- AI-generated summaries and next steps
 
-# \- Call history with transcripts, summaries, and recordings
+##### \- Automatic sales status classification
 
-# 
+##### \- Call history with transcripts, summaries, and recordings
 
-# \## Technology
+##### 
 
-# 
+##### \### Technology
 
-# \- React and Vite
+##### 
 
-# \- Node.js and Express
+##### React · Vite · Node.js · Express · Google Gemini API
 
-# \- Google Gemini API
+##### 
 
-# \- Browser speech recognition and synthesis
+##### Browser speech recognition and synthesis · JSON-based local storage
 
-# \- JSON-based local storage
+##### 
 
-# 
+##### \### Getting started
 
-# \## Getting started
+##### 
 
-# 
+##### Install dependencies in the project root and configure the required environment variables.
 
-# Install dependencies in the project root and configure the required environment variables.
+##### 
 
-# 
+##### Start the frontend and backend using the scripts defined in the project configuration.
 
-# Start the backend and frontend using the scripts defined in the project configuration. Refer to the respective package files for available commands.
+##### 
 
-# 
+##### \### Configuration
 
-# \## Configuration
+##### 
 
-# 
+##### Configure your Gemini API key in the server environment. Never commit API keys or private customer data.
 
-# Configure your Gemini API key in the server environment. Keep credentials in local environment files and never commit secrets to version control.
+##### 
 
-# 
+##### \### Privacy
 
-# \## Privacy
+##### 
 
-# 
+##### Obtain appropriate consent before recording conversations. Avoid storing real customer data in public repositories.
 
-# Recording should only take place with appropriate consent. Avoid storing real customer data in public repositories.
+##### 
 
-# 
+##### \### Project status
 
-# \## Project status
+##### 
 
-# 
-
-# The application is under development. Test voice behavior, recording playback, data persistence, and deployment before using it in production.
+##### Under development. Voice behavior, recording playback, persistence, and deployment require end-to-end verification.
 
