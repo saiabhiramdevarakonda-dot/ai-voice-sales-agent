@@ -257,6 +257,49 @@ function App() {
   const permanentlyDeleteCall = async call => { if (!window.confirm('Permanently delete this call and its recording? This cannot be undone.')) return; try { const r = await fetch(`${API}/api/calls/${call.id}/permanent`, { method: 'DELETE' }); const d = await r.json(); if (!r.ok) throw new Error(d.error || 'Could not permanently delete call'); await refreshTrash(); await refreshCalls(); setToast('Call and recording permanently deleted.'); } catch (e) { setToast(e.message); } };
   const emptyTrash = async () => { if (!trashedCalls.length || !window.confirm(`Permanently delete ${trashedCalls.length} trashed call(s) and their recordings? This cannot be undone.`)) return; try { const r = await fetch(`${API}/api/trash`, { method: 'DELETE' }); const d = await r.json(); if (!r.ok) throw new Error(d.error || 'Could not empty recycle bin'); await refreshTrash(); await refreshCalls(); setToast(`Recycle bin emptied · ${d.count} call(s) deleted.`); } catch (e) { setToast(e.message); } };
   const openCall = async call => { try { const r = await fetch(`${API}/api/calls/${call.id}`); const d = await r.json(); if (!r.ok) throw new Error(d.error); setSelectedCall({ ...d, hasRecording: d.hasRecording }); setView('history'); } catch (e) { setToast(e.message); } };
+  
+
+const startNewCall = () => {
+  if (activeRef.current) {
+    setToast('End the current call before starting a new one.');
+    return;
+  }
+
+  // Prevent startCall() from restoring an old conversation.
+  resumeCallRef.current = null;
+  setResumeCall(null);
+
+  // Clear transcript state and its source of truth.
+  transcriptRef.current = [];
+  setTranscript([]);
+
+  // Clear all previous call details.
+  draftRef.current = '';
+  setDraft('');
+  setSelectedCall(null);
+  setDuration(0);
+  setStartedAt(null);
+  startedAtRef.current = null;
+  setLastError('');
+  setIsThinking(false);
+  setIsListening(false);
+  setRecordingState('idle');
+  setStatus('Ready to start');
+
+  listeningRequestedRef.current = false;
+  finalizeRecognitionRef.current = false;
+  recognizedTextRef.current = '';
+  recognitionDisplayRef.current = '';
+  draftManuallyEditedRef.current = false;
+  processingRef.current = false;
+
+  clearInterval(timerRef.current);
+  window.speechSynthesis?.cancel();
+
+  setView('live');
+};
+
+
   const cancelContinuation = () => { resumeCallRef.current = null; setResumeCall(null); transcriptRef.current = []; setTranscript([]); setToast('Continuation cancelled. Start a new call whenever you are ready.'); };
   const continueConversation = call => {
     if (!call?.transcript?.length) { setToast('This call has no transcript to continue.'); return; }
@@ -270,7 +313,13 @@ function App() {
     <aside className="sidebar">
       <div className="brand"><div className="brand-icon"><AudioLines size={23}/></div><div><strong>voiceflow<span>.</span></strong><small>SALES INTELLIGENCE</small></div></div>
       <div className="workspace-label">WORKSPACE</div>
-      <button className={`nav-item ${view === 'live' ? 'active' : ''}`} onClick={() => setView('live')}><LayoutDashboard size={18}/> Live sales agent</button>
+
+<button
+  className={`nav-item ${view === 'live' ? 'active' : ''}`}
+  onClick={startNewCall}
+>
+  <LayoutDashboard size={18}/> Live sales agent
+</button>
       <button className={`nav-item ${view === 'history' ? 'active' : ''}`} onClick={() => setView('history')}><History size={18}/> Call history <span className="nav-count">{calls.length}</span></button>
       <button className="nav-item" onClick={() => { setTrashOpen(true); refreshTrash(); }}><Trash2 size={18}/> Recycle bin <span className="nav-count">{trashedCalls.length}</span></button>
       <div className="side-divider"/>
@@ -282,7 +331,7 @@ function App() {
     </aside>
 
     <main className="main-area">
-      <header className="topbar"><div className="breadcrumbs"><button type="button" className="breadcrumb-link" onClick={() => { setView('live'); setSelectedCall(null); setTrashOpen(false); }}>Workspace</button> <span>/</span> <b>{view === 'live' ? 'Live sales agent' : 'Call history'}</b></div><div className="top-actions"><div className={`system-pill ${apiState}`}><span className="tiny-dot"/>{apiState === 'online' ? 'System operational' : apiState === 'checking' ? 'Connecting…' : 'Backend offline'}</div><button className="icon-button" type="button" title="Settings" aria-label="Open settings" onClick={() => setSettingsOpen(true)}><Settings2 size={18}/></button></div></header>
+      <header className="topbar"><div className="breadcrumbs"><button type="button" className="breadcrumb-link" onClick={startNewCall}>Workspace</button> <span>/</span> <b>{view === 'live' ? 'Live sales agent' : 'Call history'}</b></div><div className="top-actions"><div className={`system-pill ${apiState}`}><span className="tiny-dot"/>{apiState === 'online' ? 'System operational' : apiState === 'checking' ? 'Connecting…' : 'Backend offline'}</div><button className="icon-button" type="button" title="Settings" aria-label="Open settings" onClick={() => setSettingsOpen(true)}><Settings2 size={18}/></button></div></header>
       {view === 'live' ? <div className="page-content">
         <div className="page-heading"><div><div className="eyebrow"><Sparkles size={14}/> AI-POWERED SALES</div><h1>Live sales agent</h1><p>Have a real conversation. Let Aira qualify the lead, handle objections, and find the next step.</p></div><div className="heading-right"><div className="agent-status"><span className={`pulse ${isCallActive ? 'live' : ''}`}/>{isCallActive ? 'Agent active' : 'Agent ready'}</div></div></div>
         <div className="stats-grid"><Stat icon={<Phone size={17}/>} label="Total conversations" value={stats.total} helper="Saved calls"/><Stat icon={<Sparkles size={17}/>} label="Interested leads" value={stats.interested} helper="Interested or demo requested"/><Stat icon={<Check size={17}/>} label="Converted" value={stats.converted} helper="Confirmed commitments"/><Stat icon={<Activity size={17}/>} label="AI status" value={aiConfigured ? 'Configured' : 'Demo mode'} helper={aiConfigured ? 'Gemini API key present' : 'Add Gemini API key'} compact/></div>
@@ -303,7 +352,22 @@ function App() {
         </div>
         <div className="bottom-tip"><div className="tip-icon"><Sparkles size={16}/></div><div><strong>Make the most of your sales call</strong><span>Ask about team size, current workflows, budget, integrations, or request a demo to test lead qualification.</span></div><button onClick={() => { draftRef.current = 'Can you tell me about your pricing and trial?'; setDraft('Can you tell me about your pricing and trial?'); if (!isCallActive) setToast('Start a call, then send this suggested question from the transcript box.'); }}><Plus size={14}/> Suggest a question</button></div>
       </div> : <div className="page-content history-page">
-        <div className="page-heading"><div><div className="eyebrow"><History size={14}/> SALES ACTIVITY</div><h1>Call history</h1><p>Review recordings, transcripts, AI summaries, and the next best action for every conversation.</p></div><button className="outline-button" onClick={() => { setView('live'); setSelectedCall(null); }}><Plus size={16}/> New call</button></div>
+        
+<div className="page-heading">
+  <div>
+    <div className="eyebrow">
+      <History size={14} /> SALES ACTIVITY
+    </div>
+    <h1>Call history</h1>
+    <p>
+      Review recordings, transcripts, AI summaries, and the next best action for every conversation.
+    </p>
+  </div>
+  <button className="outline-button" onClick={startNewCall}>
+    <Plus size={16} /> New call
+  </button>
+</div>
+
         <div className="history-summary"><div><span>Total calls</span><strong>{calls.length}</strong></div><div><span>Interested leads</span><strong>{stats.interested}</strong></div><div><span>Converted</span><strong>{stats.converted}</strong></div><div className="summary-last"><span>Storage</span><strong><span className="tiny-dot green-dot"/> Persistent demo storage</strong></div></div>
         <div className="history-layout"><section className="panel history-list-panel"><div className="panel-head"><div><div className="panel-title">All conversations</div><p>Newest calls first</p></div><span className="message-count">{calls.length} total</span></div>{calls.length === 0 ? <div className="history-empty"><div className="empty-icon"><Headphones size={24}/></div><strong>No calls yet</strong><p>Your completed calls and AI analysis will appear here.</p><button className="start-button small" onClick={() => setView('live')}><Phone size={15}/> Start first call</button></div> : <div className="history-list">{calls.map(call => <button key={call.id} className={`history-row ${selectedCall?.id === call.id ? 'selected' : ''}`} onClick={() => openCall(call)}><div className="history-row-icon"><Headphones size={18}/></div><div className="history-row-copy"><strong>FlowPilot discovery call</strong><span>{fmtDate(call.startedAt)} · {fmtDuration(call.durationSeconds || 0)}</span><small>{call.transcript?.filter(m => m.role === 'user').length || 0} customer responses</small></div><div className={`status-badge ${STATUS_COLORS[call.status] || 'gray'}`}>{call.status}</div></button>)}</div>}</section>
           <section className="panel call-detail-panel">{selectedCall ? <><div className="panel-head"><div><div className="panel-title">Call intelligence</div><p>{fmtDate(selectedCall.startedAt)}</p></div><div className="detail-head-actions"><div className={`status-badge ${STATUS_COLORS[selectedCall.status] || 'gray'}`}>{selectedCall.status}</div><button className="outline-button" type="button" onClick={() => continueConversation(selectedCall)}><RotateCcw size={14}/> Continue conversation</button><button className="danger-outline-button" type="button" onClick={() => moveCallToTrash(selectedCall)}><Trash2 size={14}/> Move to recycle bin</button></div></div><div className="detail-content"><div className="summary-block"><div className="detail-label"><Sparkles size={14}/> AI SUMMARY</div><p>{selectedCall.summary || 'Summary is not available.'}</p></div>
