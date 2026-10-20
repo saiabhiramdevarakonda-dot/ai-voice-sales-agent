@@ -9,6 +9,17 @@ An AI-powered voice assistant that conducts interactive sales conversations, cap
   <img src="https://img.shields.io/badge/Status-In%20Development-orange?style=flat-square" alt="In development" />
 </p>
 
+## Live Demo
+
+**[Open AI Voice Sales Bot](https://ai-voice-sales-agent-1.onrender.com)**
+
+Explore the voice-enabled sales assistant, live conversation transcripts, call history, recordings, and sales analysis.
+
+**Backend health:** [Check API status](https://ai-voice-sales-agent-4gz5.onrender.com/api/health)
+
+> Note: The backend runs on Render's free tier, so the first request after inactivity may take a little longer. AI responses depend on Gemini API quota availability.
+
+
 ## Overview
 
 AI Voice Sales Agent is a web application designed to simulate a sales representative through natural voice and text interactions.
