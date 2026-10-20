@@ -1,86 +1,42 @@
-##### AI Voice Sales Agent
+# AI Voice Sales Agent
 
-##### ====================
+An AI-powered voice assistant for interactive sales conversations, customer discovery, and follow-ups.
 
-##### 
+## Overview
 
-##### An AI-powered voice assistant for interactive sales conversations, customer discovery, and follow-ups.
+AI Voice Sales Agent simulates sales conversations using speech recognition and generative AI. It captures customer responses, summarizes requirements, and assigns a relevant sales status.
 
-##### 
+## Features
 
-##### \### Overview
+- Interactive voice conversations
+- Multilingual speech input and responses
+- Live conversation transcript
+- Call controls and duration tracking
+- Consent-based recording and playback
+- AI-generated summaries and next steps
+- Automatic sales status classification
+- Call history with transcripts, summaries, and recordings
 
-##### 
+## Technology
 
-##### AI Voice Sales Agent simulates sales conversations using speech recognition and generative AI. It captures customer responses, summarizes requirements, and assigns a relevant sales status.
+React · Vite · Node.js · Express · Google Gemini API
 
-##### 
+Browser speech recognition and synthesis · JSON-based local storage
 
-##### \### Features
+## Getting started
 
-##### 
+Install dependencies in the project root and configure the required environment variables.
 
-##### \- Interactive voice conversations
+Start the frontend and backend using the scripts defined in the project configuration.
 
-##### \- Multilingual speech input and responses
+## Configuration
 
-##### \- Live conversation transcript
+Configure your Gemini API key in the server environment. Never commit API keys or private customer data.
 
-##### \- Call controls and duration tracking
+## Privacy
 
-##### \- Consent-based recording and playback
+Obtain appropriate consent before recording conversations. Avoid storing real customer data in public repositories.
 
-##### \- AI-generated summaries and next steps
+## Project status
 
-##### \- Automatic sales status classification
-
-##### \- Call history with transcripts, summaries, and recordings
-
-##### 
-
-##### \### Technology
-
-##### 
-
-##### React · Vite · Node.js · Express · Google Gemini API
-
-##### 
-
-##### Browser speech recognition and synthesis · JSON-based local storage
-
-##### 
-
-##### \### Getting started
-
-##### 
-
-##### Install dependencies in the project root and configure the required environment variables.
-
-##### 
-
-##### Start the frontend and backend using the scripts defined in the project configuration.
-
-##### 
-
-##### \### Configuration
-
-##### 
-
-##### Configure your Gemini API key in the server environment. Never commit API keys or private customer data.
-
-##### 
-
-##### \### Privacy
-
-##### 
-
-##### Obtain appropriate consent before recording conversations. Avoid storing real customer data in public repositories.
-
-##### 
-
-##### \### Project status
-
-##### 
-
-##### Under development. Voice behavior, recording playback, persistence, and deployment require end-to-end verification.
-
+Under development. Voice behavior, recording playback, persistence, and deployment require end-to-end verification.
