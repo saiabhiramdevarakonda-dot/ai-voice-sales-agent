@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+server/.env
+
+# Generated call data and recordings
+server/data/
+server/data/calls.json
+server/data/recordings/
+**/recordings/
+*.webm
+*.wav
+*.mp3
+*.m4a
+*.ogg
+
+# Build outputs
+client/dist/
+server/dist/
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Test outputs
+coverage/
+.nyc_output/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak

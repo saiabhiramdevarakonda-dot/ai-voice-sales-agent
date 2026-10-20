@@ -1,0 +1,16 @@
+{
+  "name": "voice-sales-agent-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "smoke-test": "node src/smoke-test.js",
+    "test": "node src/integration-test.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
